@@ -1,0 +1,18 @@
+----------------------------------------------------------------------------------------------------------
+--Author        : Hidequel Puga
+--Date          : 2022-10-07
+--Description   : SQL Server patches contain program updates that fix security and product functionality
+--                issues found in the software.
+----------------------------------------------------------------------------------------------------------
+
+-- >> Audit
+Ensure that no other roles are enabled for the underlying operating system and that no
+excess tooling is installed, per enterprise policy.
+
+
+
+
+
+-- >> Remediations
+Uninstall excess tooling and/or remove unnecessary roles from the underlying operating
+system.

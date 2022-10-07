@@ -1,0 +1,23 @@
+----------------------------------------------------------------------------------------------------------
+--Author        : Hidequel Puga
+--Date          : 2022-10-07
+--Description   : SQL Server supports Shared Memory, Named Pipes, and TCP/IP protocols. However, SQL
+--                Server should be configured to use the bare minimum required based on the organization's
+--                needs.
+--Rationale     : Using fewer protocols minimizes the attack surface of SQL Server and, in some cases, can
+--                protect it from remote attacks.
+----------------------------------------------------------------------------------------------------------
+
+-- >> Audit
+
+Open SQL Server Configuration Manager; go to the SQL Server Network Configuration.
+Ensure that only required protocols are enabled.
+
+
+
+
+
+-- >> Remediation
+
+Open SQL Server Configuration Manager; go to the SQL Server Network Configuration.
+Ensure that only required protocols are enabled. Disable protocols not necessary.
