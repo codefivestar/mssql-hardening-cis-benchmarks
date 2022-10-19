@@ -4,19 +4,20 @@
 --Description   : Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.2.0.pdf, page - 71
 ----------------------------------------------------------------------------------------------------------
 
--->> Audit
---Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.2.0.pdf, page - 71, 72
+BEGIN-->> Audit
 
+    --Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.2.0.pdf, page - 71, 72
 
+END
 
+BEGIN -- >> Remediation
 
+    --Set the MUST_CHANGE option for SQL Authenticated logins when creating a login initially:
+    CREATE LOGIN <login_name> WITH PASSWORD = '<password_value>' MUST_CHANGE
+                                            , CHECK_EXPIRATION = ON
+                                            , CHECK_POLICY     = ON;
 
--- >> Remediation
+    --Set the MUST_CHANGE option for SQL Authenticated logins when resetting a password:
+    ALTER LOGIN <login_name> WITH PASSWORD = '<new_password_value>' MUST_CHANGE;                                         
 
---Set the MUST_CHANGE option for SQL Authenticated logins when creating a login initially:
-CREATE LOGIN <login_name> WITH PASSWORD = '<password_value>' MUST_CHANGE
-                                         , CHECK_EXPIRATION = ON
-                                         , CHECK_POLICY     = ON;
-
---Set the MUST_CHANGE option for SQL Authenticated logins when resetting a password:
-ALTER LOGIN <login_name> WITH PASSWORD = '<new_password_value>' MUST_CHANGE;                                         
+END

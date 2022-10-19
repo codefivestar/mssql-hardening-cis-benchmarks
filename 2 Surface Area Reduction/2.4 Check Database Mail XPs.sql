@@ -7,24 +7,25 @@
 --                attack vector and channel to exfiltrate data from the database server to a remote host.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-SELECT name
-     , CAST(value as int) as value_configured
-     , CAST(value_in_use as int) as value_in_use
-  FROM sys.configurations
- WHERE name = 'Database Mail XPs';
+   SELECT name
+      , CAST(value as int) as value_configured
+      , CAST(value_in_use as int) as value_in_use
+   FROM sys.configurations
+   WHERE name = 'Database Mail XPs';
 
+END   
 
+BEGIN -- >> Remediation
 
+   EXECUTE sp_configure 'show advanced options', 1;
+   RECONFIGURE;
+   EXECUTE sp_configure 'Database Mail XPs', 0;
+   RECONFIGURE;
+   GO
+   
+   EXECUTE sp_configure 'show advanced options', 0;
+   RECONFIGURE;
 
-
--- >> Remediation
-
-EXECUTE sp_configure 'show advanced options', 1;
-RECONFIGURE;
-EXECUTE sp_configure 'Database Mail XPs', 0;
-RECONFIGURE;
-GO
-EXECUTE sp_configure 'show advanced options', 0;
-RECONFIGURE;
+END

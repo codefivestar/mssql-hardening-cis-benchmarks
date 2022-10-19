@@ -8,26 +8,26 @@
 --                user account.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-USE <database_name>;
-GO
+    USE <database_name>;
+    GO
 
-SELECT DB_NAME() AS DatabaseName, 'guest' AS Database_User,
-[permission_name], [state_desc]
-FROM sys.database_permissions
-WHERE [grantee_principal_id] = DATABASE_PRINCIPAL_ID('guest')
-AND [state_desc] LIKE 'GRANT%'
-AND [permission_name] = 'CONNECT'
-AND DB_NAME() NOT IN ('master','tempdb','msdb');
+    SELECT DB_NAME() AS DatabaseName, 'guest' AS Database_User,
+    [permission_name], [state_desc]
+    FROM sys.database_permissions
+    WHERE [grantee_principal_id] = DATABASE_PRINCIPAL_ID('guest')
+    AND [state_desc] LIKE 'GRANT%'
+    AND [permission_name] = 'CONNECT'
+    AND DB_NAME() NOT IN ('master','tempdb','msdb');
 
+END
 
+BEGIN -- >> Remediation
 
+    USE <database_name>;
+    GO
 
+    REVOKE CONNECT FROM guest;
 
--- >> Remediation
-
-USE <database_name>;
-GO
-
-REVOKE CONNECT FROM guest;
+END

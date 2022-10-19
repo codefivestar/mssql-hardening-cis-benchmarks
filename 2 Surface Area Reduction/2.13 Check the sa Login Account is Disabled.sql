@@ -8,22 +8,26 @@
 --                against a well-known principal.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN-- >> Audit
 
-SELECT name, is_disabled
-FROM sys.server_principals
-WHERE sid = 0x01
-AND is_disabled = 0;
+    SELECT name, is_disabled
+    FROM sys.server_principals
+    WHERE sid = 0x01
+    AND is_disabled = 0;
 
+END
 
+BEGIN -- >> Remediation
 
+    USE [master]
+    GO
 
+    DECLARE @tsql nvarchar(max)
 
--- >> Remediation
+    SET @tsql = 'ALTER LOGIN ' + SUSER_NAME(0x01) + ' DISABLE'
 
-USE [master]
-GO
-DECLARE @tsql nvarchar(max)
-SET @tsql = 'ALTER LOGIN ' + SUSER_NAME(0x01) + ' DISABLE'
-EXEC (@tsql)
-GO
+    EXEC (@tsql)
+    GO
+
+END
+

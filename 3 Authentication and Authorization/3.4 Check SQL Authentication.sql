@@ -6,19 +6,19 @@
 --                credential being established in a contained database.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-SELECT name AS DBUser
-  FROM sys.database_principals
- WHERE name NOT IN ('dbo', 'Information_Schema', 'sys', 'guest')
-   AND type IN ('U', 'S', 'G')
-   AND authentication_type = 2;
-GO
+  SELECT name AS DBUser
+    FROM sys.database_principals
+   WHERE name NOT IN ('dbo', 'Information_Schema', 'sys', 'guest')
+     AND type IN ('U', 'S', 'G')
+     AND authentication_type = 2;
+      GO
 
+END
 
+BEGIN -- >> Remediation
 
+  -- Leverage Windows Authenticated users in contained databases
 
-
--- >> Remediation
-
--- Leverage Windows Authenticated users in contained databases
+END

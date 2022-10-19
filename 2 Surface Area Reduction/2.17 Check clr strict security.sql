@@ -7,37 +7,46 @@
 --                from both inadvertent and malicious assemblies.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Check if CLR assemblies are in use
+BEGIN -- >> Impact
 
-USE [<database_name>]
-GO
-SELECT name AS Assembly_Name, permission_set_desc
-FROM sys.assemblies
-WHERE is_user_defined = 1;
-GO
+    BEGIN -- Script for single database
+
+        USE [<database_name>]
+        GO
+
+        SELECT name AS Assembly_Name
+             , permission_set_desc
+          FROM sys.assemblies
+         WHERE is_user_defined = 1;
+        GO
+
+    END
+
+END
+
+BEGIN -- >> Audit
+
+    SELECT name
+         , CAST(value as int) as value_configured
+         , CAST(value_in_use as int) as value_in_use
+      FROM sys.configurations
+     WHERE name = 'clr strict security';
 
 
+END
+
+BEGIN -- >> Remediation
+
+    EXECUTE sp_configure 'show advanced options', 1;
+    RECONFIGURE;
+
+    EXECUTE sp_configure 'clr strict security', 1;
+    RECONFIGURE;
+    GO
+
+    EXECUTE sp_configure 'show advanced options', 0;
+    RECONFIGURE;
+
+END
 
 
-
--- >> Audit
-
-SELECT name,
-CAST(value as int) as value_configured,
-CAST(value_in_use as int) as value_in_use
-FROM sys.configurations
-WHERE name = 'clr strict security';
-
-
-
-
-
--- >> Remediation
-
-EXECUTE sp_configure 'show advanced options', 1;
-RECONFIGURE;
-EXECUTE sp_configure 'clr strict security', 1;
-RECONFIGURE;
-GO
-EXECUTE sp_configure 'show advanced options', 0;
-RECONFIGURE;

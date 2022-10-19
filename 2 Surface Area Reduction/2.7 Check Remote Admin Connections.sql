@@ -9,23 +9,23 @@
 --                and not responding to a SQL Server Database Engine connection.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-USE master;
-GO
-SELECT name,
-CAST(value as int) as value_configured,
-CAST(value_in_use as int) as value_in_use
-FROM sys.configurations
-WHERE name = 'remote admin connections'
-AND SERVERPROPERTY('IsClustered') = 0;
+    USE master;
+    GO
+    SELECT name,
+    CAST(value as int) as value_configured,
+    CAST(value_in_use as int) as value_in_use
+    FROM sys.configurations
+    WHERE name = 'remote admin connections'
+    AND SERVERPROPERTY('IsClustered') = 0;
 
+END
 
+BEGIN -- >> Remediation
 
+    EXECUTE sp_configure 'remote admin connections', 0;
+    RECONFIGURE;
+    GO
 
-
--- >> Remediation
-
-EXECUTE sp_configure 'remote admin connections', 0;
-RECONFIGURE;
-GO
+END    

@@ -7,19 +7,19 @@
 --Rationale     : Orphan users should be removed to avoid potential misuse of those broken users in any way.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-USE <database_name>;
-GO
-EXEC sp_change_users_login @Action='Report';
+    USE <database_name>;
+    GO
+    EXEC sp_change_users_login @Action='Report';
 
+END
 
+BEGIN-- >> Remediation
 
+    USE <database_name>;
+    GO
 
+    DROP USER <username>;
 
--- >> Remediation
-
-USE <database_name>;
-GO
-
-DROP USER <username>;
+END

@@ -8,25 +8,26 @@
 --                against a well-known principal name.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-SELECT principal_id, name
-FROM sys.server_principals
-WHERE name = 'sa';
+    SELECT principal_id, name
+    FROM sys.server_principals
+    WHERE name = 'sa';
 
+END
 
+BEGIN -- >> Remediation
 
+    USE [master]
+    GO
 
+    -- If principal_id = 1 or the login owns database objects, rename the sa login
+    ALTER LOGIN [sa] WITH NAME = <different_name>;
+    GO
 
--- >> Remediation
+    -- If the login owns no database objects, then drop it
+    -- Do NOT drop the login if it is principal_id = 1
+    DROP LOGIN sa
 
-USE [master]
-GO
+END
 
--- If principal_id = 1 or the login owns database objects, rename the sa login
-ALTER LOGIN [sa] WITH NAME = <different_name>;
-GO
-
--- If the login owns no database objects, then drop it
--- Do NOT drop the login if it is principal_id = 1
-DROP LOGIN sa
