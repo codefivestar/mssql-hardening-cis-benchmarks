@@ -7,24 +7,24 @@
 --                malicious purposes.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-SELECT name,
-CAST(value as int) as value_configured,
-CAST(value_in_use as int) as value_in_use
-FROM sys.configurations
-WHERE name = 'scan for startup procs';
+    SELECT name,
+    CAST(value as int) as value_configured,
+    CAST(value_in_use as int) as value_in_use
+    FROM sys.configurations
+    WHERE name = 'scan for startup procs';
 
+END
 
+BEGIN -- >> Remediation
 
+    EXECUTE sp_configure 'show advanced options', 1;
+    RECONFIGURE;
+    EXECUTE sp_configure 'scan for startup procs', 0;
+    RECONFIGURE;
+    GO
+    EXECUTE sp_configure 'show advanced options', 0;
+    RECONFIGURE;
 
-
--- >> Remediation
-
-EXECUTE sp_configure 'show advanced options', 1;
-RECONFIGURE;
-EXECUTE sp_configure 'scan for startup procs', 0;
-RECONFIGURE;
-GO
-EXECUTE sp_configure 'show advanced options', 0;
-RECONFIGURE;
+END    

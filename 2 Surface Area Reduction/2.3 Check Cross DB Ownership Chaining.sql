@@ -8,20 +8,20 @@
 --                information disclosure.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-SELECT name
-     , CAST(value as int)        as value_configured
-     , CAST(value_in_use as int) as value_in_use
-  FROM sys.configurations
- WHERE name = 'cross db ownership chaining';
+   SELECT name
+      , CAST(value as int)        as value_configured
+      , CAST(value_in_use as int) as value_in_use
+   FROM sys.configurations
+   WHERE name = 'cross db ownership chaining';
 
+END
 
+BEGIN -- >> Remediation
 
+   EXECUTE sp_configure 'cross db ownership chaining', 0;
+   RECONFIGURE;
+   GO
 
-
--- >> Remediation
-
-EXECUTE sp_configure 'cross db ownership chaining', 0;
-RECONFIGURE;
-GO
+END

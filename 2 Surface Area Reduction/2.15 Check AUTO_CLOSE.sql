@@ -8,16 +8,16 @@
 --                the server\instance level, the database must be opened every time to authenticate a user.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-SELECT name, containment, containment_desc, is_auto_close_on
-FROM sys.databases
-WHERE containment <> 0 and is_auto_close_on = 1;
+    SELECT name, containment, containment_desc, is_auto_close_on
+    FROM sys.databases
+    WHERE containment <> 0 and is_auto_close_on = 1;
 
+END
 
+BEGIN -- >> Remediation
 
+    ALTER DATABASE <database_name> SET AUTO_CLOSE OFF;
 
-
--- >> Remediation
-
-ALTER DATABASE <database_name> SET AUTO_CLOSE OFF;
+END

@@ -13,47 +13,47 @@
 --                containing the logins which require the access.
 ----------------------------------------------------------------------------------------------------------
 
--->> Audit
+BEGIN -->> Audit
 
--- Use the following syntax to determine if extra permissions have been granted to the public
--- server role.
+      -- Use the following syntax to determine if extra permissions have been granted to the public
+      -- server role.
 
-SELECT * 
-  FROM master.sys.server_permissions
- WHERE (   grantee_principal_id = SUSER_SID(N'public')
-     and   state_desc LIKE 'GRANT%')
-   AND NOT (   state_desc = 'GRANT'
-         and   [permission_name] = 'VIEW ANY DATABASE'
-         and   class_desc = 'SERVER')
-   AND NOT (   state_desc = 'GRANT'
-         and   [permission_name] = 'CONNECT'
-         and   class_desc = 'ENDPOINT'
-         and   major_id = 2)
-   AND NOT (   state_desc = 'GRANT'
-         and   [permission_name] = 'CONNECT'
-         and   class_desc = 'ENDPOINT'
-         and   major_id = 3)
-   AND NOT (   state_desc = 'GRANT'
-         and   [permission_name] = 'CONNECT'
-         and   class_desc = 'ENDPOINT'
-         and   major_id = 4)
-   AND NOT (   state_desc = 'GRANT'
-         and   [permission_name] = 'CONNECT'
-         and   class_desc = 'ENDPOINT'
-         and   major_id = 5);
+      SELECT * 
+      FROM master.sys.server_permissions
+      WHERE (   grantee_principal_id = SUSER_SID(N'public')
+      and   state_desc LIKE 'GRANT%')
+      AND NOT (   state_desc = 'GRANT'
+            and   [permission_name] = 'VIEW ANY DATABASE'
+            and   class_desc = 'SERVER')
+      AND NOT (   state_desc = 'GRANT'
+            and   [permission_name] = 'CONNECT'
+            and   class_desc = 'ENDPOINT'
+            and   major_id = 2)
+      AND NOT (   state_desc = 'GRANT'
+            and   [permission_name] = 'CONNECT'
+            and   class_desc = 'ENDPOINT'
+            and   major_id = 3)
+      AND NOT (   state_desc = 'GRANT'
+            and   [permission_name] = 'CONNECT'
+            and   class_desc = 'ENDPOINT'
+            and   major_id = 4)
+      AND NOT (   state_desc = 'GRANT'
+            and   [permission_name] = 'CONNECT'
+            and   class_desc = 'ENDPOINT'
+            and   major_id = 5);
 
+END            
 
+BEGIN -->> Remediation
 
+      -- 1. Add the extraneous permissions found in the Audit query results to the specific
+      -- logins to user-defined server roles which require the access.
+      -- 2. Revoke the <permission_name> from the public role as shown below
 
+      USE [master]
+      GO
 
--->> Remediation
+      REVOKE <permission_name> FROM public;
+      GO
 
--- 1. Add the extraneous permissions found in the Audit query results to the specific
--- logins to user-defined server roles which require the access.
--- 2. Revoke the <permission_name> from the public role as shown below
-
-USE [master]
-GO
-
-REVOKE <permission_name> FROM public;
-GO
+END

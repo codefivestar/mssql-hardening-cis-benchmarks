@@ -10,34 +10,34 @@
 --                may become totally inaccessible.
 ----------------------------------------------------------------------------------------------------------
 
--->> Audit
+BEGIN -->> Audit
 
---Use the following syntax to determine if any local groups have been added as SQL Server Logins.
+  --Use the following syntax to determine if any local groups have been added as SQL Server Logins.
 
-USE [master]
-GO
+  USE [master]
+  GO
 
-SELECT pr.[name] AS LocalGroupName, pe.[permission_name], pe.[state_desc]
-  FROM sys.server_principals pr
-  JOIN sys.server_permissions pe
-    ON pr.[principal_id] = pe.[grantee_principal_id]
- WHERE pr.[type_desc] = 'WINDOWS_GROUP'
-   AND pr.[name] like CAST(SERVERPROPERTY('MachineName') AS nvarchar) + '%';
+  SELECT pr.[name] AS LocalGroupName, pe.[permission_name], pe.[state_desc]
+    FROM sys.server_principals pr
+    JOIN sys.server_permissions pe
+      ON pr.[principal_id] = pe.[grantee_principal_id]
+  WHERE pr.[type_desc] = 'WINDOWS_GROUP'
+    AND pr.[name] like CAST(SERVERPROPERTY('MachineName') AS nvarchar) + '%';
 
+END
 
+BEGIN -->> Remediation
 
+  -- 1. For each LocalGroupName login, if needed create an equivalent AD group containing
+  -- only the required user accounts.
+  -- 2. Add the AD group or individual Windows accounts as a SQL Server login and grant it
+  -- the permissions required.
+  -- 3. Drop the LocalGroupName login using the syntax below after replacing <name>.
 
+  USE [master]
+  GO
 
--->> Remediation
+  DROP LOGIN [<name>]
+  GO
 
--- 1. For each LocalGroupName login, if needed create an equivalent AD group containing
--- only the required user accounts.
--- 2. Add the AD group or individual Windows accounts as a SQL Server login and grant it
--- the permissions required.
--- 3. Drop the LocalGroupName login using the syntax below after replacing <name>.
-
-USE [master]
-GO
-
-DROP LOGIN [<name>]
-GO
+END

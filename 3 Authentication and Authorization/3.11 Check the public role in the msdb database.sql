@@ -11,37 +11,37 @@
 --                Otherwise, SQL Agent job steps dependent upon this access will fail.
 ----------------------------------------------------------------------------------------------------------
 
--->> Audit
+BEGIN -->> Audit
 
--- Use the following syntax to determine if access to any proxies have been granted to the
--- msdb database's public role.
--- ** This query should not return any rows.
+  -- Use the following syntax to determine if access to any proxies have been granted to the
+  -- msdb database's public role.
+  -- ** This query should not return any rows.
 
-USE [msdb]
-GO
+  USE [msdb]
+  GO
 
-SELECT sp.name AS proxyname
-  FROM dbo.sysproxylogin spl
-  JOIN sys.database_principals dp
-    ON dp.sid = spl.sid
-  JOIN sysproxies sp
-    ON sp.proxy_id = spl.proxy_id
- WHERE principal_id = USER_ID('public');
-GO
+  SELECT sp.name AS proxyname
+    FROM dbo.sysproxylogin spl
+    JOIN sys.database_principals dp
+      ON dp.sid = spl.sid
+    JOIN sysproxies sp
+      ON sp.proxy_id = spl.proxy_id
+  WHERE principal_id = USER_ID('public');
+  GO
 
+END
 
+BEGIN -->> Remediation
 
+  -- 1. Ensure the required security principals are explicitly granted access to the proxy
+  -- (use sp_grant_login_to_proxy).
+  -- 2. Revoke access to the <proxyname> from the public role.
 
+  USE [msdb]
+  GO
 
--->> Remediation
+  EXEC dbo.sp_revoke_login_from_proxy @name       = N'public'
+                                    , @proxy_name = N'<proxyname>';
+  GO
 
--- 1. Ensure the required security principals are explicitly granted access to the proxy
--- (use sp_grant_login_to_proxy).
--- 2. Revoke access to the <proxyname> from the public role.
-
-USE [msdb]
-GO
-
-EXEC dbo.sp_revoke_login_from_proxy @name       = N'public'
-                                  , @proxy_name = N'<proxyname>';
-GO
+END

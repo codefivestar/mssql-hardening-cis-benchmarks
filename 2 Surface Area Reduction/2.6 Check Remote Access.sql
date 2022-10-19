@@ -8,22 +8,22 @@
 --                this feature as soon as possible. Use sp_addlinkedserver instead.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
 
-SELECT name
-     , CAST(value as int) as value_configured
-     , CAST(value_in_use as int) as value_in_use
-  FROM sys.configurations
- WHERE name = 'remote access';
+   SELECT name
+      , CAST(value as int) as value_configured
+      , CAST(value_in_use as int) as value_in_use
+   FROM sys.configurations
+   WHERE name = 'remote access';
 
+END
 
+BEGIN -- >> Remediation
 
+   EXECUTE sp_configure 'show advanced options', 1;
+   RECONFIGURE;
+   EXECUTE sp_configure 'remote access', 0;
+   RECONFIGURE;
+   GO
 
-
--- >> Remediation
-
-EXECUTE sp_configure 'show advanced options', 1;
-RECONFIGURE;
-EXECUTE sp_configure 'remote access', 0;
-RECONFIGURE;
-GO
+END   

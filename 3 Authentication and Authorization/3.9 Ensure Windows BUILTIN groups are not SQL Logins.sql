@@ -11,30 +11,30 @@
 --                may become totally inaccessible.
 ----------------------------------------------------------------------------------------------------------
 
--->> Audit
+BEGIN -->> Audit
 
-SELECT pr.[name]
-     , pe.[permission_name]
-     , pe.[state_desc]
-FROM sys.server_principals      pr
-    JOIN sys.server_permissions pe
+    SELECT pr.[name]
+         , pe.[permission_name]
+         , pe.[state_desc]
+      FROM sys.server_principals  pr
+      JOIN sys.server_permissions pe
         ON pr.principal_id = pe.grantee_principal_id
-WHERE pr.name like 'BUILTIN%';
+     WHERE pr.name like 'BUILTIN%';
 
+END
 
+BEGIN -- >> Remediation
 
+    -- 1. For each BUILTIN login, if needed create a more restrictive AD group containing only
+    -- the required user accounts.
+    -- 2. Add the AD group or individual Windows accounts as a SQL Server login and grant it
+    -- the permissions required.
+    -- 3. Drop the BUILTIN login using the syntax below after replacing <name> in [BUILTIN\<name>].
 
+    USE [master]
+    GO
 
--- >> Remediation
+    DROP LOGIN [BUILTIN\<name>]
+    GO
 
--- 1. For each BUILTIN login, if needed create a more restrictive AD group containing only
--- the required user accounts.
--- 2. Add the AD group or individual Windows accounts as a SQL Server login and grant it
--- the permissions required.
--- 3. Drop the BUILTIN login using the syntax below after replacing <name> in [BUILTIN\<name>].
-
-USE [master]
-GO
-
-DROP LOGIN [BUILTIN\<name>]
-GO
+END

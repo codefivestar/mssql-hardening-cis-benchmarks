@@ -8,16 +8,16 @@
 --                if the name is not known.
 ----------------------------------------------------------------------------------------------------------
 
--- >> Audit
+BEGIN -- >> Audit
+    
+    SELECT name
+      FROM sys.server_principals
+     WHERE sid = 0x01;
 
-SELECT name
-FROM sys.server_principals
-WHERE sid = 0x01;
+END
 
+BEGIN -- >> Remediation
 
+    ALTER LOGIN sa WITH NAME = <different_user>;
 
-
-
--- >> Remediation
-
-ALTER LOGIN sa WITH NAME = <different_user>;
+END
