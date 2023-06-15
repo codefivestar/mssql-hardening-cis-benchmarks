@@ -16,6 +16,8 @@ BEGIN -- >> Audit
    FROM sys.configurations
    WHERE name = 'cross db ownership chaining';
 
+   -- Both value columns must show 0 to be compliant.
+
 END
 
 BEGIN -- >> Remediation

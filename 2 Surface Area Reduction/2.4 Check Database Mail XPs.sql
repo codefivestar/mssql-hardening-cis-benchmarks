@@ -15,6 +15,8 @@ BEGIN -- >> Audit
    FROM sys.configurations
    WHERE name = 'Database Mail XPs';
 
+   -- Both value columns must show 0 to be compliant.
+
 END   
 
 BEGIN -- >> Remediation

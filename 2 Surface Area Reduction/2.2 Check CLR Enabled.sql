@@ -51,7 +51,7 @@ BEGIN
             BEGIN
                
                SET @dbName = (SELECT TOP 1 dbName FROM @Databases)
-               SET @sql    = 'USE ' + @dbName + '; ' + @sqlCheck + ';' 
+               SET @sql    = 'USE [' + @dbName + ']; ' + @sqlCheck + ';' 
 
                -- PRINT @sql;
 

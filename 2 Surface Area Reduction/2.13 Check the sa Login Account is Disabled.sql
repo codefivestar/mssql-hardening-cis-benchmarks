@@ -15,6 +15,10 @@ BEGIN-- >> Audit
     WHERE sid = 0x01
     AND is_disabled = 0;
 
+    -- No rows should be returned to be compliant.
+    -- An is_disabled value of 0 indicates the login is currently enabled and therefore needs
+    -- remediation.
+
 END
 
 BEGIN -- >> Remediation

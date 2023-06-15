@@ -15,6 +15,8 @@ BEGIN -- >> Audit
     FROM sys.configurations
     WHERE name = 'scan for startup procs';
 
+    -- Both value columns must show 0.
+    
 END
 
 BEGIN -- >> Remediation

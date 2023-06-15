@@ -16,6 +16,8 @@ BEGIN -- >> Audit
    FROM sys.configurations
    WHERE name = 'Ole Automation Procedures';
 
+   -- Both value columns must show 0 to be compliant.
+
 END
 
 BEGIN -- >> Remediation

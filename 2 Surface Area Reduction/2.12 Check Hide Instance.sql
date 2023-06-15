@@ -16,6 +16,9 @@ BEGIN -- >> Audit
                                       , @value      = @getValue OUTPUT;
 
 	SELECT @getValue;
+
+    -- A value of 1 should be returned to be compliant.
+    
 END
 
 BEGIN -- >> Remediation

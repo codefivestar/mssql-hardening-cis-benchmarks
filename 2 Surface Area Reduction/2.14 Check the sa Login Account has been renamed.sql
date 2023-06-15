@@ -14,6 +14,8 @@ BEGIN -- >> Audit
       FROM sys.server_principals
      WHERE sid = 0x01;
 
+    -- A name of sa indicates the account has not been renamed and therefore needs remediation.
+    
 END
 
 BEGIN -- >> Remediation

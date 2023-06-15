@@ -16,6 +16,8 @@ BEGIN -- >> Audit
    FROM sys.configurations
    WHERE name = 'remote access';
 
+   -- Both value columns must show 0.
+
 END
 
 BEGIN -- >> Remediation

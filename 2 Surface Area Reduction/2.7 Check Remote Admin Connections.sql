@@ -20,6 +20,9 @@ BEGIN -- >> Audit
     WHERE name = 'remote admin connections'
     AND SERVERPROPERTY('IsClustered') = 0;
 
+    -- If no data is returned, the instance is a cluster and this recommendation is not applicable. If
+    -- data is returned, then both the value columns must show 0 to be compliant.
+
 END
 
 BEGIN -- >> Remediation
