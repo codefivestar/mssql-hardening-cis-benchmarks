@@ -7,6 +7,9 @@
 --                because they cannot be enumerated.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -- >> Audit
 	DECLARE @getValue INT;
 

@@ -4,6 +4,9 @@
 --Description   : Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.2.0.pdf
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -- >> Audit
 
    SELECT name

@@ -4,15 +4,18 @@
 --Description   : Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.2.0.pdf, page - 73
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -->> Audit
 
    -- Use the following code snippet to determine the status of SQL Logins and if their password
    -- complexity is enforced.
 
    SELECT name
-      , is_disabled
-   FROM sys.sql_logins
-   WHERE is_policy_checked = 0;
+        , is_disabled
+     FROM sys.sql_logins
+    WHERE is_policy_checked = 0;
 
 END
 

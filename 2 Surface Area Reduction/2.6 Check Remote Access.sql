@@ -8,6 +8,9 @@
 --                this feature as soon as possible. Use sp_addlinkedserver instead.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -- >> Audit
 
    SELECT name

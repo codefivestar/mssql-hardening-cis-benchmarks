@@ -4,17 +4,16 @@
 --Description   : Uses Windows Authentication to validate attempted connections.
 --Rationale     : Windows provides a more robust authentication mechanism than SQL Server authentication.
 ----------------------------------------------------------------------------------------------------------
+USE [master]
+GO
 
 BEGIN-- >> Audit
 
-    SELECT SERVERPROPERTY('IsIntegratedSecurityOnly') as [login_mode];
+    SELECT SERVERPROPERTY('IsIntegratedSecurityOnly') AS [login_mode];
 
 END
 
 BEGIN-- >> Remediation
-
-    USE [master]
-    GO
 
     EXEC xp_instance_regwrite N'HKEY_LOCAL_MACHINE'
                             , N'Software\Microsoft\MSSQLServer\MSSQLServer'

@@ -6,12 +6,15 @@
 --Rationale     : Provides protection from malicious CLR assemblies or extended procedures.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN-- >> Audit
 
     SELECT name
-    FROM sys.databases
-    WHERE is_trustworthy_on = 1
-    AND name != 'msdb';
+      FROM sys.databases
+     WHERE is_trustworthy_on = 1
+      AND name != 'msdb';
 
     -- No rows should be returned.
 

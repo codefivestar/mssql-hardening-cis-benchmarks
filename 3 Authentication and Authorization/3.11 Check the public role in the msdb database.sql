@@ -11,14 +11,14 @@
 --                Otherwise, SQL Agent job steps dependent upon this access will fail.
 ----------------------------------------------------------------------------------------------------------
 
+USE [msdb]
+GO
+
 BEGIN -->> Audit
 
   -- Use the following syntax to determine if access to any proxies have been granted to the
   -- msdb database's public role.
   -- ** This query should not return any rows.
-
-  USE [msdb]
-  GO
 
   SELECT sp.name AS proxyname
     FROM dbo.sysproxylogin spl
@@ -26,9 +26,11 @@ BEGIN -->> Audit
       ON dp.sid = spl.sid
     JOIN sysproxies sp
       ON sp.proxy_id = spl.proxy_id
-  WHERE principal_id = USER_ID('public');
+   WHERE principal_id = USER_ID('public');
   GO
 
+  -- This query should not return any rows.
+  
 END
 
 BEGIN -->> Remediation
