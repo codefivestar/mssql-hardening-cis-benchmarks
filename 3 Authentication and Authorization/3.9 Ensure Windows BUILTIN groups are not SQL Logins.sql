@@ -11,6 +11,9 @@
 --                may become totally inaccessible.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -->> Audit
 
     SELECT pr.[name]
@@ -21,6 +24,8 @@ BEGIN -->> Audit
         ON pr.principal_id = pe.grantee_principal_id
      WHERE pr.name like 'BUILTIN%';
 
+    -- This query should not return any rows. On an AWS RDS instance if only [BUILTIN]\Administrators is returned, this is a pass.
+
 END
 
 BEGIN -- >> Remediation
@@ -30,9 +35,6 @@ BEGIN -- >> Remediation
     -- 2. Add the AD group or individual Windows accounts as a SQL Server login and grant it
     -- the permissions required.
     -- 3. Drop the BUILTIN login using the syntax below after replacing <name> in [BUILTIN\<name>].
-
-    USE [master]
-    GO
 
     DROP LOGIN [BUILTIN\<name>]
     GO

@@ -4,11 +4,15 @@
 --Description   : SQL Server patches contain program updates that fix security and product functionality
 --                issues found in the software.
 ----------------------------------------------------------------------------------------------------------
+USE [master]
+GO
 
 BEGIN -- >> Audit
 
-     SELECT SERVERPROPERTY('ProductLevel')   AS SP_installed
-          , SERVERPROPERTY('ProductVersion') AS Version;
+     SELECT SERVERPROPERTY('ProductLevel') AS SP_installed
+          , SERVERPROPERTY('ProductVersion') AS Version
+          , SERVERPROPERTY('ProductUpdateLevel') AS 'ProductUpdate_Level'
+          , SERVERPROPERTY('ProductUpdateReference') AS 'KB_Number';
 
 END
 

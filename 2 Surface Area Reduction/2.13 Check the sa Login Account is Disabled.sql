@@ -8,9 +8,13 @@
 --                against a well-known principal.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN-- >> Audit
 
-    SELECT name, is_disabled
+    SELECT name
+         , is_disabled
     FROM sys.server_principals
     WHERE sid = 0x01
     AND is_disabled = 0;

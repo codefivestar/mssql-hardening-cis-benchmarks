@@ -10,9 +10,15 @@
 
 BEGIN -- >> Audit
 
-    SELECT name, containment, containment_desc, is_auto_close_on
-    FROM sys.databases
-    WHERE containment <> 0 and is_auto_close_on = 1;
+    SELECT name
+         , containment
+         , containment_desc
+         , is_auto_close_on
+      FROM sys.databases
+     WHERE containment <> 0 
+       AND is_auto_close_on = 1;
+
+    -- No rows should be returned.
 
 END
 

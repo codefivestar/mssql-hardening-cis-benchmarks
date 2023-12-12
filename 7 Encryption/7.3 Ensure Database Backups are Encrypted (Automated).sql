@@ -9,25 +9,23 @@ GO
 
 BEGIN -- >> Audit
 
-   SELECT name
-     , CAST(value as int)        as value_configured
-     , CAST(value_in_use as int) as value_in_use
-  FROM sys.configurations
- WHERE name = 'Ad Hoc Distributed Queries';
+    SELECT b.key_algorithm
+	     , b.encryptor_type
+	     , d.is_encrypted
+	     , b.database_name
+	     , b.server_name
+      FROM msdb.dbo.backupset b
+INNER JOIN sys.databases d
+	    ON b.database_name = d.name
+     WHERE b.key_algorithm IS NULL
+	   AND b.encryptor_type IS NULL
+	   AND d.is_encrypted = 0;  
 
--- Both value columns must show 0.
+-- No rows should be returned by the query
 
 END
 
 BEGIN -- >> Remediation
 
-   EXECUTE sp_configure 'show advanced options', 1;
-   RECONFIGURE;
-   EXECUTE sp_configure 'Ad Hoc Distributed Queries', 0;
-   RECONFIGURE;
-   GO
-   EXECUTE sp_configure 'show advanced options', 0;
-   RECONFIGURE;
 
 END
-

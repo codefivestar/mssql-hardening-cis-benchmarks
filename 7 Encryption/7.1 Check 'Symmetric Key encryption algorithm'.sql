@@ -4,10 +4,10 @@
 --Description   : Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.2.0.pdf
 ----------------------------------------------------------------------------------------------------------
 
-BEGIN -- >> Audit
+USE <database_name>
+GO
 
-    USE <database_name>
-    GO
+BEGIN -- >> Audit
 
     SELECT db_name() AS Database_Name
          , name AS Key_Name

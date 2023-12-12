@@ -6,6 +6,9 @@
 --                from both inadvertent and malicious assemblies.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN
 
    BEGIN -- >> Impact

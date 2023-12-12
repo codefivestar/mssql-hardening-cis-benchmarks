@@ -7,6 +7,9 @@
 --                attack vector and channel to exfiltrate data from the database server to a remote host.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -- >> Audit
 
    SELECT name

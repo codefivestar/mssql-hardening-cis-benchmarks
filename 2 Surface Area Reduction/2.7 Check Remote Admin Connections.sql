@@ -9,16 +9,17 @@
 --                and not responding to a SQL Server Database Engine connection.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -- >> Audit
 
-    USE master;
-    GO
-    SELECT name,
-    CAST(value as int) as value_configured,
-    CAST(value_in_use as int) as value_in_use
-    FROM sys.configurations
-    WHERE name = 'remote admin connections'
-    AND SERVERPROPERTY('IsClustered') = 0;
+    SELECT name
+         , CAST(value as int) as value_configured
+         , CAST(value_in_use as int) as value_in_use
+      FROM sys.configurations
+     WHERE name = 'remote admin connections'
+       AND SERVERPROPERTY('IsClustered') = 0;
 
     -- If no data is returned, the instance is a cluster and this recommendation is not applicable. If
     -- data is returned, then both the value columns must show 0 to be compliant.

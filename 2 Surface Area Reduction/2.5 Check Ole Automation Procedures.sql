@@ -8,6 +8,9 @@
 --                execute functions in the security context of SQL Server.
 ----------------------------------------------------------------------------------------------------------
 
+USE [master]
+GO
+
 BEGIN -- >> Audit
 
    SELECT name

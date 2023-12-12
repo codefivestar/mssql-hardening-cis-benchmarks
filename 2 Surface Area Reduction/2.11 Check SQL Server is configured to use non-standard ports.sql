@@ -8,13 +8,9 @@
 
 BEGIN -- >> Audit
 
-  SELECT TOP(1) local_tcp_port 
-    FROM sys.dm_exec_connections
-   WHERE local_tcp_port IS NOT NULL;
-
-  SELECT local_tcp_port
-    FROM sys.dm_exec_connections
-   WHERE session_id = @@SPID
+  SELECT count(*)
+FROM sys.dm_server_registry
+WHERE value_name like '%Tcp%' and value_data='1433';
 
 
 END

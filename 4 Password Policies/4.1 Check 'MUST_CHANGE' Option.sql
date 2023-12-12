@@ -6,7 +6,7 @@
 
 BEGIN-->> Audit
 
-    --Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.2.0.pdf, page - 71, 72
+    --Check documentation CIS_Microsoft_SQL_Server_2019_Benchmark_v1.3.0.pdf, pages : 78-79
 
 END
 
